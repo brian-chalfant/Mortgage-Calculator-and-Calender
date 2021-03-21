@@ -10,11 +10,20 @@ import SwiftUI
 
 
 struct Calc: View {
+    
+    init(){
+            UITableView.appearance().backgroundColor = .clear
+        }
+    
     @State var mortgageValue = ""
     @State var AnnualPercentageRate = ""
     @State var selection = 0
     @State var mortgageType = [10, 15, 25, 30]
     @State var downPayment = ""
+    let colorone = Color(red: 244.0/255, green: 249.0/255, blue: 249.0/255)
+    let colortwo = Color(red: 204.0/255, green: 242.0/255, blue: 244.0/255)
+    let colorthree = Color(red:164.0/255, green: 235.0/255, blue: 243.0/255)
+    let colorfour = Color(red: 170.0/255, green: 170.0/255, blue: 170.0/255)
     
     
     var monthlyPayments: (Double, Double) {
@@ -28,9 +37,9 @@ struct Calc: View {
         //M = P[r(1+r)^n/((1+r)^n)-1)]
         let top = r * pow(1+r,n)
         let bottom = pow(1+r, n)-1
-        if (top > 0) {
+        if (totalValue > 0 && apr > 0) {
             let payment =  (totalValue - dp) * (top/bottom)
-            let interestPaid = Double((Double(years * 12) * payment) - totalValue)
+            let interestPaid = Double((Double(years * 12) * payment) - (totalValue-dp))
             
             return (payment, interestPaid)
         } else {
@@ -41,15 +50,16 @@ struct Calc: View {
 
     var body: some View {
         VStack{
+            
             Form {
                 Section(header: Text("Mortgage Amount")) {
                     TextField("Mortgage Amount", text: $mortgageValue)
                 }
-                Section(header: Text("Annual Percentage Rate")) {
-                    TextField("Annual Percentage Rate", text: $AnnualPercentageRate)
+                Section(header: Text("Interest Rate")) {
+                    TextField("Interest Rate", text: $AnnualPercentageRate)
                 }
                 Section (header: Text("Down Payment")){
-                    TextField("Down Payment", text: $downPayment).keyboardType(.decimalPad)
+                    TextField("Down Payment", text: $downPayment)
                 }
                 Section (header: Text("Length of Loan in Years")) {
                     Picker("Length Of Loan", selection: $selection) {
@@ -57,15 +67,20 @@ struct Calc: View {
                             Text("\(self.mortgageType[$0]) Years")
                         }
                     }.pickerStyle(SegmentedPickerStyle())
+                    .background(colortwo)
                 }
                 Section (header: Text("Monthy Payment")) {
                     Text("$\(monthlyPayments.0, specifier: "%.2f")")
+                        .foregroundColor(.black)
                 }
                 Section (header: Text("Interest Paid")) {
                     Text("$\(monthlyPayments.1, specifier: "%.2f")")
+                        .foregroundColor(.black)
                 } //TODO: Pie Chart, Loan payment Table
                  //
-            }
+            }.foregroundColor(colorfour)
+            .background(LinearGradient(gradient: Gradient(colors: [colortwo, colorthree]), startPoint: .leading, endPoint: /*@START_MENU_TOKEN@*/.trailing/*@END_MENU_TOKEN@*/))
+            //.keyboardType(.decimalPad)
             
         }
         
