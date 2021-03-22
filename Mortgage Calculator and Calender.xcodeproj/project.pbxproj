@@ -13,6 +13,7 @@
 		0A1C71702603B59F00E8B32F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A1C716F2603B59F00E8B32F /* Preview Assets.xcassets */; };
 		0A1C71792603BA9600E8B32F /* Calc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1C71782603BA9600E8B32F /* Calc.swift */; };
 		0A79E89C26082C1B0076BCED /* Cal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A79E89B26082C1B0076BCED /* Cal.swift */; };
+		0A79E89F260832D40076BCED /* mortgage_table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A79E89E260832D40076BCED /* mortgage_table.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		0A1C71712603B59F00E8B32F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0A1C71782603BA9600E8B32F /* Calc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calc.swift; sourceTree = "<group>"; };
 		0A79E89B26082C1B0076BCED /* Cal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cal.swift; sourceTree = "<group>"; };
+		0A79E89E260832D40076BCED /* mortgage_table.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mortgage_table.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 				0A1C716E2603B59F00E8B32F /* Preview Content */,
 				0A1C71782603BA9600E8B32F /* Calc.swift */,
 				0A79E89B26082C1B0076BCED /* Cal.swift */,
+				0A79E89E260832D40076BCED /* mortgage_table.swift */,
 			);
 			path = "Mortgage Calculator and Calender";
 			sourceTree = "<group>";
@@ -145,6 +148,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A79E89C26082C1B0076BCED /* Cal.swift in Sources */,
+				0A79E89F260832D40076BCED /* mortgage_table.swift in Sources */,
 				0A1C716B2603B59F00E8B32F /* HomeView.swift in Sources */,
 				0A1C71792603BA9600E8B32F /* Calc.swift in Sources */,
 				0A1C71692603B59F00E8B32F /* Mortgage_Calculator_and_CalenderApp.swift in Sources */,
