@@ -20,13 +20,14 @@ struct Calc: View {
     @State var selection = 0
     @State var mortgageType = [10, 15, 25, 30]
     @State var downPayment = ""
+    @State var ShowTable = false
     let colorone = Color(red: 244.0/255, green: 249.0/255, blue: 249.0/255)
     let colortwo = Color(red: 204.0/255, green: 242.0/255, blue: 244.0/255)
     let colorthree = Color(red:164.0/255, green: 235.0/255, blue: 243.0/255)
     let colorfour = Color(red: 170.0/255, green: 170.0/255, blue: 170.0/255)
     
     
-    var monthlyPayments: (Double, Double) {
+    var monthlyPayments: (Double, Double, Double, Double, Int) {
         // Calculated variable
         let dp = Double(downPayment) ?? 0
         let years = mortgageType[selection]
@@ -41,9 +42,9 @@ struct Calc: View {
             let payment =  (totalValue - dp) * (top/bottom)
             let interestPaid = Double((Double(years * 12) * payment) - (totalValue-dp))
             
-            return (payment, interestPaid)
+            return (payment, interestPaid, totalValue-dp, r, years)
         } else {
-            return (0, 0)
+            return (0.0, 0.0, 0.0, 0.0,  0)
         }
         //(years * 12 * payment amount) - loan amount
     }
@@ -52,10 +53,10 @@ struct Calc: View {
         VStack{
             
             Form {
-                Section(header: Text("Mortgage Amount")) {
+                Section(header: Text("Mortgage Amount $")) {
                     TextField("Mortgage Amount", text: $mortgageValue)
                 }
-                Section(header: Text("Interest Rate")) {
+                Section(header: Text("Interest Rate %")) {
                     TextField("Interest Rate", text: $AnnualPercentageRate)
                 }
                 Section (header: Text("Down Payment")){
@@ -78,6 +79,15 @@ struct Calc: View {
                         .foregroundColor(.black)
                 } //TODO: Pie Chart, Loan payment Table
                  //
+                Section {
+                    Button("Amortization Table") {
+                        self.ShowTable.toggle()
+                    }.sheet(isPresented: $ShowTable, content: {
+                        mortgage_table(
+                            totalAmount: monthlyPayments.2,
+                            beginningBalance: monthlyPayments.2, interestRate: monthlyPayments.3, monthlyPayment: monthlyPayments.0, numberOfPayments: monthlyPayments.4 * 12)
+                    })
+                }
             }.foregroundColor(colorfour)
             .background(LinearGradient(gradient: Gradient(colors: [colortwo, colorthree]), startPoint: .leading, endPoint: /*@START_MENU_TOKEN@*/.trailing/*@END_MENU_TOKEN@*/))
             //.keyboardType(.decimalPad)
