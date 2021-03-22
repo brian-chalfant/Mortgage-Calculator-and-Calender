@@ -11,7 +11,7 @@ import SwiftUI
 struct Mortgage_Calculator_and_CalenderApp: App {
     var body: some Scene {
         WindowGroup {
-            Calc()
+            HomeView()
         }
     }
 }

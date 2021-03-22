@@ -8,33 +8,24 @@
 import SwiftUI
 
 struct HomeView: View {
-    
+    @State private var ShowingCalc = false
+    @State private var ShowingCal = false
     var body: some View {
         VStack{
-            NavigationView {
-                Form {
-                    Section {
-                        Text("Calculator")
-                    }
-                }
-                .navigationBarTitle(Text("Mortgage Helper"), displayMode: .inline)
-            }
-            Text("Mortgage Helper")
-            .font(.headline)
-            .padding()
-            NavigationView {
-                NavigationLink(destination: Calc()) {
-                    Label("Calculater", systemImage: "plusminus.circle.fill")
-                }
-                
-            }
-            NavigationView {
-                NavigationLink(destination: Calc()) {
-                    Label("Calender", systemImage: "calendar")
-           
+            Form {
+                Section (header: Text("Tools")) {
+                    Button("Calculator") {
+                        self.ShowingCalc.toggle()
+                    }.sheet(isPresented: $ShowingCalc, content: {
+                        Calc()
+                    })
+                    Button("Calendar") {
+                        self.ShowingCal.toggle()
+                    }.sheet(isPresented: $ShowingCal, content: {
+                        Cal()
+                    })
                 }
             }
-            
         }
     }
 }
