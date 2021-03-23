@@ -35,16 +35,16 @@ struct HomeView: View {
                             }).buttonStyle(FilledButton())
                         Spacer()
                         }
-                    HStack {
+                HStack {
                         Spacer()
-                        Button("\(Image(systemName: "calendar"))  Calendar") {
+                            Button("\(Image(systemName: "calendar"))  Calendar") {
                             self.ShowingCal.toggle()
-                        }.sheet(isPresented: $ShowingCal, content: {
-                            Cal()
-                        }).buttonStyle(FilledButton())
+                            }.sheet(isPresented: $ShowingCal, content: {
+                                cal()
+                            }).buttonStyle(FilledButton())
                         Spacer()
                         }
-                Spacer()
+                
             }.background(LinearGradient(gradient: Gradient(colors: [colortwo, colorthree]), startPoint: /*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/, endPoint: /*@START_MENU_TOKEN@*/.trailing/*@END_MENU_TOKEN@*/)).ignoresSafeArea()
             }
         
