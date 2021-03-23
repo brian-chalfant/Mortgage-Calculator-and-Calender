@@ -79,19 +79,23 @@ struct Calc: View {
                         .foregroundColor(.black)
                 } //TODO: Pie Chart, Loan payment Table
                  //
-                Section {
-                    Button("Amortization Table") {
-                        self.ShowTable.toggle()
-                    }.sheet(isPresented: $ShowTable, content: {
-                        mortgage_table(
-                            totalAmount: monthlyPayments.2,
-                            beginningBalance: monthlyPayments.2, interestRate: monthlyPayments.3, monthlyPayment: monthlyPayments.0, numberOfPayments: monthlyPayments.4 * 12)
-                    })
-                }
+                Button("Amortization Table") {
+                    self.ShowTable.toggle()
+                }.sheet(isPresented: $ShowTable, content: {
+                    mortgage_table(
+                        totalAmount: monthlyPayments.2,
+                        beginningBalance: monthlyPayments.2, interestRate: monthlyPayments.3, monthlyPayment: monthlyPayments.0, numberOfPayments: monthlyPayments.4 * 12)
+                })
+                .frame(width: 300, height: 50,
+                       alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                .background(colorthree)
+                .foregroundColor(.black)
+                .font(.body)
+                .border(/*@START_MENU_TOKEN@*/Color.black/*@END_MENU_TOKEN@*/)
+                    
             }.foregroundColor(colorfour)
             .background(LinearGradient(gradient: Gradient(colors: [colortwo, colorthree]), startPoint: .leading, endPoint: /*@START_MENU_TOKEN@*/.trailing/*@END_MENU_TOKEN@*/))
             //.keyboardType(.decimalPad)
-            
         }
         
         }
