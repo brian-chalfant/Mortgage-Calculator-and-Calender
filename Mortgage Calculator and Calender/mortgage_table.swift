@@ -9,6 +9,7 @@ import SwiftUI
 
 
 struct mortgage_table: View {
+    
     @State var totalAmount: Double
     @State var beginningBalance: Double
     @State var interestRate: Double
@@ -16,29 +17,44 @@ struct mortgage_table: View {
     @State var numberOfPayments: Int
     @State var startDate = Date()
     
+    
+    
+    let colorone = Color(red: 244.0/255, green: 249.0/255, blue: 249.0/255)
+    let colortwo = Color(red: 204.0/255, green: 242.0/255, blue: 244.0/255)
+    let colorthree = Color(red:164.0/255, green: 235.0/255, blue: 243.0/255)
+    let colorfour = Color(red: 170.0/255, green: 170.0/255, blue: 170.0/255)
+    
     var body: some View {
         let (mort_table, date_table) = generateTable(totalAmount: totalAmount, balance: beginningBalance, interestRate: interestRate, monthlyPayment: monthlyPayment, numberOfPayments: numberOfPayments)
-        VStack {
-            Form {
-        tableHeader()
-                ForEach(0..<mort_table.count, id: \.self) {i in
-                    tableRow(date: date_table[i],
+        
+                Form {
+                    VStack {
+                        tableHeader()
+                        Rectangle()
+                            .fill(colorfour)
+                            .padding(.bottom, 0.25)
+                        .background(colorfour)
+                        ForEach(0..<mort_table.count, id: \.self) {i in
+                            tableRow(date: date_table[i],
                              payment: mort_table[i][0],
                              interest: mort_table[i][1],
                              principle: mort_table[i][2],
                              balance: mort_table[i][3])
+                                .padding(1)
             
             
-            }
-        }
-        }
+                        }
+
+                    }.listRowBackground(LinearGradient(gradient: Gradient(colors: [colortwo, colorthree]), startPoint: /*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/, endPoint: /*@START_MENU_TOKEN@*/.trailing/*@END_MENU_TOKEN@*/))
+                }
+                .opacity(0.8)
+                .background(colortwo)
+        
     }
 }
-
 struct tableHeader: View {
     var body: some View {
     HStack() {
-        Group() {
             Text("Date")
             Spacer()
             Text("Payment")
@@ -46,8 +62,8 @@ struct tableHeader: View {
             Text("Interest")
             Spacer()
             Text("Balance")
-        }
-    }.font(.caption)
+            Spacer()
+    }.font(Font.caption.weight(.bold))
 }
 }
 
@@ -59,15 +75,15 @@ struct tableRow: View {
     var balance: Double
     var body: some View {
     HStack() {
-        Group() {
-            Text(date)
+        Text(date).font(Font.caption.weight(.thin))
             Spacer()
-            Text("\(payment, specifier: "%.2f")")
-            Text("\(principle, specifier: "%.2f")")
-            Text("\(interest, specifier: "%.2f")")
+            Text("$\(payment, specifier: "%.2f")")
             Spacer()
-            Text("\(balance, specifier: "%.2f")")
-        }
+            Text("$\(principle, specifier: "%.2f")")
+            Spacer()
+            Text("$\(interest, specifier: "%.2f")")
+            Spacer()
+            Text("$\(balance, specifier: "%.2f")")
     }.font(.caption)
 }
 }
