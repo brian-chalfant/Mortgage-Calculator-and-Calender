@@ -113,7 +113,7 @@ struct MonthView<DateView>: View where DateView: View {
 
     private var header: some View {
         let component = calendar.component(.month, from: month)
-        let formatter = component == 1 ? DateFormatter.monthAndYear : .month
+        let formatter = component == 1 ? DateFormatter.monthAndYear : .monthAndYear
         return Text(formatter.string(from: month))
             .font(.title)
             .padding()
@@ -169,6 +169,7 @@ struct RootView: View {
     }
 
     var body: some View {
+        
         CalendarView(interval: year) { date in
             Text("30")
                 .hidden()
@@ -183,3 +184,16 @@ struct RootView: View {
     }
 }
 
+struct CalendarView_Previews: PreviewProvider {
+    static var previews: some View {
+        RootView()
+//        CalendarView(interval: .init()) { _ in
+//            Text("30")
+//                .hidden()
+//                .padding(8)
+//                .background(Color.blue)
+//                .clipShape(Circle())
+//                .padding(.vertical, 4)
+//        }
+    }
+}

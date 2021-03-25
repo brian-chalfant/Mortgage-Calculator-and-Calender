@@ -40,7 +40,7 @@ struct HomeView: View {
                             Button("\(Image(systemName: "calendar"))  Calendar") {
                             self.ShowingCal.toggle()
                             }.sheet(isPresented: $ShowingCal, content: {
-                                cal()
+                                RootView()
                             }).buttonStyle(FilledButton())
                         Spacer()
                         }
