@@ -21,18 +21,20 @@ struct Calc: View {
     @State var mortgageType = [10, 15, 25, 30]
     @State var downPayment = ""
     @State var ShowTable = false
-    let colorone = Color(red: 244.0/255, green: 249.0/255, blue: 249.0/255)
-    let colortwo = Color(red: 204.0/255, green: 242.0/255, blue: 244.0/255)
-    let colorthree = Color(red:164.0/255, green: 235.0/255, blue: 243.0/255)
-    let colorfour = Color(red: 170.0/255, green: 170.0/255, blue: 170.0/255)
+    @State var additionalPayment = ""
+    let colorone = Color(.lightGray)
+    let colortwo = Color(#colorLiteral(red: 0.9198163748, green: 0.720421195, blue: 0.4714105129, alpha: 1))
+    let colorthree = Color(.cyan)
+    let colorfour = Color(.gray)
     
     
-    var monthlyPayments: (Double, Double, Double, Double, Int) {
+    var monthlyPayments: (Double, Double, Double, Double, Int, Double) {
         // Calculated variable
         let dp = Double(downPayment) ?? 0
         let years = mortgageType[selection]
         let totalValue = Double(mortgageValue) ?? 0
         let apr = Double(AnnualPercentageRate) ?? 0
+        let addnum = Double(additionalPayment) ?? 0
         let r = (apr/100)/12
         let n = Double(years * 12)
         //M = P[r(1+r)^n/((1+r)^n)-1)]
@@ -42,9 +44,9 @@ struct Calc: View {
             let payment =  (totalValue - dp) * (top/bottom)
             let interestPaid = Double((Double(years * 12) * payment) - (totalValue-dp))
             
-            return (payment, interestPaid, totalValue-dp, r, years)
+            return (payment, interestPaid, totalValue-dp, r, years, addnum)
         } else {
-            return (0.0, 0.0, 0.0, 0.0,  0)
+            return (0.0, 0.0, 0.0, 0.0,  0, 0.0)
         }
         //(years * 12 * payment amount) - loan amount
     }
@@ -68,7 +70,7 @@ struct Calc: View {
                             Text("\(self.mortgageType[$0]) Years")
                         }
                     }.pickerStyle(SegmentedPickerStyle())
-                    .background(colortwo)
+                    .background(colorthree)
                 }
                 Section (header: Text("Monthy Payment")) {
                     Text("$\(monthlyPayments.0, specifier: "%.2f")")
@@ -77,14 +79,20 @@ struct Calc: View {
                 Section (header: Text("Interest Paid")) {
                     Text("$\(monthlyPayments.1, specifier: "%.2f")")
                         .foregroundColor(.black)
-                } //TODO: Pie Chart, Loan payment Table
+                }
+                Section (header: Text("Additional Payment each Month")) {
+                    TextField("Additional Payment", text: $additionalPayment)
+                }
+                //TODO: Pie Chart, Loan payment Table
                  //
                 Button("Amortization Table") {
                     self.ShowTable.toggle()
                 }.sheet(isPresented: $ShowTable, content: {
+
                     mortgage_table(
                         totalAmount: monthlyPayments.2,
-                        beginningBalance: monthlyPayments.2, interestRate: monthlyPayments.3, monthlyPayment: monthlyPayments.0, numberOfPayments: monthlyPayments.4 * 12)
+                        beginningBalance: monthlyPayments.2, interestRate: monthlyPayments.3, monthlyPayment: monthlyPayments.0, numberOfPayments: monthlyPayments.4 * 12,
+                        additionalPayments: monthlyPayments.5)
                 })
                 .frame(width: 300, height: 50,
                        alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
@@ -94,7 +102,7 @@ struct Calc: View {
                 .border(/*@START_MENU_TOKEN@*/Color.black/*@END_MENU_TOKEN@*/)
                     
             }.foregroundColor(colorfour)
-            .background(LinearGradient(gradient: Gradient(colors: [colortwo, colorthree]), startPoint: .leading, endPoint: /*@START_MENU_TOKEN@*/.trailing/*@END_MENU_TOKEN@*/))
+            .background(LinearGradient(gradient: Gradient(colors: [colortwo, colorthree]), startPoint: .topLeading, endPoint: .bottomTrailing))
             //.keyboardType(.decimalPad)
         }
         

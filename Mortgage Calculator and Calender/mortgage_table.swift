@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftUICharts
 
 
 struct mortgage_table: View {
@@ -16,19 +17,48 @@ struct mortgage_table: View {
     @State var monthlyPayment: Double
     @State var numberOfPayments: Int
     @State var startDate = Date()
+    @State var additionalPayments: Double
+    let interest = Legend(color: .blue, label: "Interest", order: 2)
+    let principle = Legend(color: .gray, label: "Principle", order: 1)
     
     
+//    let colorone = Color(red: 244.0/255, green: 249.0/255, blue: 249.0/255)
+//    let colortwo = Color(red: 204.0/255, green: 242.0/255, blue: 244.0/255)
+//    let colorthree = Color(red:164.0/255, green: 235.0/255, blue: 243.0/255)
+//    let colorfour = Color(red: 170.0/255, green: 170.0/255, blue: 170.0/255)
     
-    let colorone = Color(red: 244.0/255, green: 249.0/255, blue: 249.0/255)
-    let colortwo = Color(red: 204.0/255, green: 242.0/255, blue: 244.0/255)
-    let colorthree = Color(red:164.0/255, green: 235.0/255, blue: 243.0/255)
-    let colorfour = Color(red: 170.0/255, green: 170.0/255, blue: 170.0/255)
+    let colorone = Color(.lightGray)
+    let colortwo = Color(.white)
+    let colorthree = Color(.cyan)
+    let colorfour = Color(.gray)
     
     var body: some View {
-        let (mort_table, date_table) = generateTable(totalAmount: totalAmount, balance: beginningBalance, interestRate: interestRate, monthlyPayment: monthlyPayment, numberOfPayments: numberOfPayments)
-        
+        let (mort_table, date_table, points, observations) = generateTable(totalAmount: totalAmount, balance: beginningBalance, interestRate: interestRate, monthlyPayment: monthlyPayment, numberOfPayments: numberOfPayments, additionalPayments: additionalPayments)
                 Form {
                     VStack {
+                        VStack {
+                        HorizontalBarChartView(dataPoints: points)
+                            if (additionalPayments > 0) {
+                                VStack() {
+                                    HStack() {
+                                        Text("$\(additionalPayments, specifier: "%.2f") Additional Per Month:")
+                                        Spacer()
+                                    }
+                                    HStack {
+                                        Text("Pay off \(observations[2], specifier: "%.0f") months ( \(observations[2]/12, specifier: "%.2f") years) Early")
+                                        Spacer()
+                                    }
+                                    HStack {
+                                //MARK: - TODO if year == 1 specify year not years
+                                        Text("Save $\(observations[0], specifier: "%.2f") in interest")
+                                        Spacer()
+                                    }
+                                }.font(.caption)
+                                .foregroundColor(.black)
+                            }
+                        }
+                            .padding()
+                            .border(/*@START_MENU_TOKEN@*/Color.black/*@END_MENU_TOKEN@*/, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
                         tableHeader()
                         Rectangle()
                             .fill(colorfour)
@@ -36,9 +66,9 @@ struct mortgage_table: View {
                         .background(colorfour)
                         ForEach(0..<mort_table.count, id: \.self) {i in
                             tableRow(date: date_table[i],
-                             payment: mort_table[i][0],
-                             interest: mort_table[i][1],
-                             principle: mort_table[i][2],
+                             payment: mort_table[i][2],
+                             interest: mort_table[i][0],
+                             principle: mort_table[i][1],
                              balance: mort_table[i][3])
                                 .padding(1)
             
@@ -58,7 +88,9 @@ struct tableHeader: View {
             Text("Date")
             Spacer()
             Text("Payment")
+            Spacer()
             Text("Principle")
+            Spacer()
             Text("Interest")
             Spacer()
             Text("Balance")
@@ -75,7 +107,7 @@ struct tableRow: View {
     var balance: Double
     var body: some View {
     HStack() {
-        Text(date).font(Font.caption.weight(.thin))
+        Text(date)
             Spacer()
             Text("$\(payment, specifier: "%.2f")")
             Spacer()
@@ -84,7 +116,7 @@ struct tableRow: View {
             Text("$\(interest, specifier: "%.2f")")
             Spacer()
             Text("$\(balance, specifier: "%.2f")")
-    }.font(.caption)
+    }.font(.system(size: 10, design: .monospaced))
 }
 }
 
@@ -92,32 +124,60 @@ struct tableRow: View {
 
 struct mortgage_table_Previews: PreviewProvider {
     static var previews: some View {
-        mortgage_table(totalAmount: 100000.0, beginningBalance: 100000.0, interestRate: 0.03/12, monthlyPayment: 956.61, numberOfPayments: 30)
+        mortgage_table(totalAmount: 100000.0, beginningBalance: 100000.0, interestRate: 0.03/12, monthlyPayment: 956.61, numberOfPayments: 120, additionalPayments: 100.0)
     }
 }
 
 
 
 
-func generateTable(totalAmount: Double, balance: Double, interestRate: Double, monthlyPayment: Double, numberOfPayments: Int) -> ([[Double]], [String]) {
+func generateTable(totalAmount: Double, balance: Double, interestRate: Double, monthlyPayment: Double, numberOfPayments: Int, additionalPayments: Double) -> ([[Double]], [String], [DataPoint], [Double]) {
+    print(additionalPayments)
     var startDate = Date()
     var date_table: [String] = []
     var mort_table: [[Double]] =  []
+    let interestLegend = Legend(color: .gray, label: "Interest", order: 2)
+    let principleLegend = Legend(color: .blue, label: "Principle", order: 1)
     let formatter = DateFormatter()
     formatter.dateFormat = "MMM YY"
     var beginningBalance = balance
-    for _ in 0..<numberOfPayments {
+    var totalInterest = 0.0
+    var interest_percentage = 0.0
+    var totalPrinciple = 0.0
+    var principle_percentage = 0.0
+    var totalPaid = 0.0
+    let deltaP = additionalPayments
+    var observations: [Double] = []
+    var monthCounter = 0.0
+    //for _ in 0..<numberOfPayments {
+    while (beginningBalance > 0.0) {
+        monthCounter += 1.0
         var tableRow: [Double] = []
+        var principle = 0.0
+        var payment = 0.0
         date_table.append(formatter.string(from: startDate))
         // append montly payment
-        tableRow.append(monthlyPayment)
+        
         // append interest
         let interest = beginningBalance * interestRate
         tableRow.append(interest)
-        // append principle
-        let principle = (monthlyPayment - interest)
-        tableRow.append(principle)
-
+        totalInterest += interest
+        // amount owed is less than normal payment
+        if (interest + beginningBalance < monthlyPayment + deltaP) {
+            payment = interest + beginningBalance
+            principle = beginningBalance
+            totalPrinciple += principle
+            tableRow.append(principle)
+            tableRow.append(payment)
+        } else {
+            payment = monthlyPayment + deltaP
+            principle = (payment - interest)
+            totalPrinciple += principle
+            tableRow.append(principle)
+            tableRow.append(payment)
+        }
+        // append monthly payment
+        
         // append balance
         let balance = (beginningBalance - principle)
         tableRow.append(balance)
@@ -129,8 +189,24 @@ func generateTable(totalAmount: Double, balance: Double, interestRate: Double, m
         startDate.addTimeInterval(2.628e+6)
         
     }
-    print(mort_table)
-    return (mort_table, date_table)
+    totalPaid = monthlyPayment * Double(numberOfPayments)
+    observations.append(totalPaid - (totalPrinciple+totalInterest))
+    observations.append((totalPaid-totalAmount)-totalInterest)
+    observations.append(Double(numberOfPayments) - monthCounter)
+    principle_percentage = totalPrinciple / (totalPrinciple + totalInterest)
+    interest_percentage = totalInterest / (totalPrinciple + totalInterest)
+    
+    if (principle_percentage.isNaN) {
+        principle_percentage = 0.0
+    }
+    if (interest_percentage.isNaN) {
+        interest_percentage = 0.0
+    }
+    let points: [DataPoint] = [
+        .init(value: totalPrinciple, label: "\(principle_percentage * 100, specifier: "%.2f")%", legend: principleLegend),
+        .init(value: totalInterest, label: "\(interest_percentage * 100, specifier: "%.2f")%", legend: interestLegend),
+    ]
+    return (mort_table, date_table, points, observations)
     
     
     

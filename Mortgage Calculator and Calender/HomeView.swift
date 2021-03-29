@@ -10,10 +10,10 @@ import SwiftUI
 struct HomeView: View {
     @State private var ShowingCalc = false
     @State private var ShowingCal = false
-    let colorone = Color(red: 244.0/255, green: 249.0/255, blue: 249.0/255)
-    let colortwo = Color(red: 204.0/255, green: 242.0/255, blue: 244.0/255)
-    let colorthree = Color(red:164.0/255, green: 235.0/255, blue: 243.0/255)
-    let colorfour = Color(red: 170.0/255, green: 170.0/255, blue: 170.0/255)
+    let colorone = Color(.lightGray)
+    let colortwo = Color(#colorLiteral(red: 0.9198163748, green: 0.720421195, blue: 0.4714105129, alpha: 1))
+    let colorthree = Color(.cyan)
+    let colorfour = Color(.gray)
     var body: some View {
         ZStack {
             VStack{
@@ -45,7 +45,7 @@ struct HomeView: View {
                         Spacer()
                         }
                 
-            }.background(LinearGradient(gradient: Gradient(colors: [colortwo, colorthree]), startPoint: /*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/, endPoint: /*@START_MENU_TOKEN@*/.trailing/*@END_MENU_TOKEN@*/)).ignoresSafeArea()
+            }.background(LinearGradient(gradient: Gradient(colors: [colortwo, colorthree]), startPoint: .topLeading, endPoint: .bottomTrailing)).ignoresSafeArea()
             }
         
     }
@@ -64,7 +64,6 @@ struct FilledButton: ButtonStyle {
             .foregroundColor(configuration.isPressed ? .gray : .black)
             .frame(width: 200, height: 200, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
             .padding()
-
             .background(Color.accentColor)
             .cornerRadius(200)
     }
