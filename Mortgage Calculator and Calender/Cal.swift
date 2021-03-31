@@ -164,6 +164,8 @@ struct CalendarView<DateView>: View where DateView: View {
 struct RootView: View {
     @Environment(\.calendar) var calendar
 
+    @State private var bgColor: Color = .blue
+    
     private var year: DateInterval {
         calendar.dateInterval(of: .year, for: Date())!
     }
@@ -174,12 +176,16 @@ struct RootView: View {
             Text("30")
                 .hidden()
                 .padding(13)
-                .background(Color.blue)
+                .background(bgColor)
                 .clipShape(Circle())
                 .padding(.vertical, 2)
                 .overlay(
                     Text(String(self.calendar.component(.day, from: date)))
-                )
+                        )
+                .onTapGesture(count: 1, perform: {
+                                    bgColor = Color.green
+                                                })
+            
         }
         
         .background(LinearGradient(gradient: Gradient(colors: [Color(#colorLiteral(red: 0.9198163748, green: 0.720421195, blue: 0.4714105129, alpha: 1)), Color(.cyan)]), startPoint: .topLeading, endPoint: .bottomTrailing)).ignoresSafeArea()
