@@ -173,14 +173,17 @@ struct RootView: View {
         CalendarView(interval: year) { date in
             Text("30")
                 .hidden()
-                .padding(8)
+                .padding(13)
                 .background(Color.blue)
                 .clipShape(Circle())
-                .padding(.vertical, 4)
+                .padding(.vertical, 2)
                 .overlay(
                     Text(String(self.calendar.component(.day, from: date)))
                 )
         }
+        
+        .background(LinearGradient(gradient: Gradient(colors: [Color(#colorLiteral(red: 0.9198163748, green: 0.720421195, blue: 0.4714105129, alpha: 1)), Color(.cyan)]), startPoint: .topLeading, endPoint: .bottomTrailing)).ignoresSafeArea()
+        
     }
 }
 
