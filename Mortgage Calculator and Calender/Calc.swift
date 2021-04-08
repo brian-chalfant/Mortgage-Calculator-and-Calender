@@ -23,9 +23,9 @@ struct Calc: View {
     @State var ShowTable = false
     @State var additionalPayment = ""
     let colorone = Color(.lightGray)
-    let colortwo = Color(#colorLiteral(red: 0.9198163748, green: 0.720421195, blue: 0.4714105129, alpha: 1))
-    let colorthree = Color(.cyan)
-    let colorfour = Color(.gray)
+    let colortwo = Color(.black)
+    let colorthree = Color(.black)
+    let colorfour = Color(.white)
     
     
     var monthlyPayments: (Double, Double, Double, Double, Int, Double) {
@@ -55,32 +55,32 @@ struct Calc: View {
         VStack{
             
             Form {
-                Section(header: Text("Mortgage Amount $")) {
+                Section(header: Text("Mortgage Amount $").glow(color: Color.blue, radius: 12)) {
                     TextField("Mortgage Amount", text: $mortgageValue)
                 }
-                Section(header: Text("Interest Rate %")) {
+                Section(header: Text("Interest Rate %").glow(color: Color.blue, radius: 12)) {
                     TextField("Interest Rate", text: $AnnualPercentageRate)
                 }
-                Section (header: Text("Down Payment")){
+                Section (header: Text("Down Payment").glow(color: Color.blue, radius: 12)){
                     TextField("Down Payment", text: $downPayment)
                 }
-                Section (header: Text("Length of Loan in Years")) {
+                Section (header: Text("Length of Loan in Years").glow(color: Color.blue, radius: 12)) {
                     Picker("Length Of Loan", selection: $selection) {
                         ForEach(0 ..< mortgageType.count) {
                             Text("\(self.mortgageType[$0]) Years")
                         }
                     }.pickerStyle(SegmentedPickerStyle())
-                    .background(colorthree)
+                    .background(colorone)
                 }
-                Section (header: Text("Monthy Payment")) {
+                Section (header: Text("Monthy Payment").glow(color: Color.blue, radius: 12)) {
                     Text("$\(monthlyPayments.0, specifier: "%.2f")")
                         .foregroundColor(.black)
                 }
-                Section (header: Text("Interest Paid")) {
+                Section (header: Text("Interest Paid").glow(color: Color.blue, radius: 12)) {
                     Text("$\(monthlyPayments.1, specifier: "%.2f")")
                         .foregroundColor(.black)
                 }
-                Section (header: Text("Additional Payment each Month")) {
+                Section (header: Text("Additional Payment each Month").glow(color: Color.blue, radius: 12)) {
                     TextField("Additional Payment", text: $additionalPayment)
                 }
                 //TODO: Pie Chart, Loan payment Table
@@ -96,10 +96,11 @@ struct Calc: View {
                 })
                 .frame(width: 300, height: 50,
                        alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                .background(colorthree)
+                .background(Color.white)
                 .foregroundColor(.black)
                 .font(.body)
                 .border(/*@START_MENU_TOKEN@*/Color.black/*@END_MENU_TOKEN@*/)
+                .glow(color: Color.blue, radius: 12)
                     
             }.foregroundColor(colorfour)
             .background(LinearGradient(gradient: Gradient(colors: [colortwo, colorthree]), startPoint: .topLeading, endPoint: .bottomTrailing))

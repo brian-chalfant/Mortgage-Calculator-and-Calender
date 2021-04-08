@@ -165,30 +165,41 @@ struct RootView: View {
     @Environment(\.calendar) var calendar
 
     @State private var bgColor: Color = .blue
+    @State var showingAlert: Bool = false
+    @State var selectedDate: Date = Date()
     
     private var year: DateInterval {
         calendar.dateInterval(of: .year, for: Date())!
     }
 
     var body: some View {
-        
+
         CalendarView(interval: year) { date in
+            
             Text("30")
                 .hidden()
-                .padding(13)
+                .padding(10)
                 .background(bgColor)
-                .clipShape(Circle())
+                .clipShape(Circle()).glow(color: .white, radius: 8)
                 .padding(.vertical, 2)
+                .font(.body)
                 .overlay(
                     Text(String(self.calendar.component(.day, from: date)))
-                        )
-                .onTapGesture(count: 1, perform: {
-                                    bgColor = Color.green
-                                                })
+                )
+                .font(.caption2)
+                .onTapGesture() {
+                    self.selectedDate = date
+                    self.showingAlert = true
+                    
+                }
             
         }
-        
-        .background(LinearGradient(gradient: Gradient(colors: [Color(#colorLiteral(red: 0.9198163748, green: 0.720421195, blue: 0.4714105129, alpha: 1)), Color(.cyan)]), startPoint: .topLeading, endPoint: .bottomTrailing)).ignoresSafeArea()
+        .alert(isPresented: $showingAlert, content: {
+            Alert(title: Text("An Accepted Offer on \(selectedDate)"), message: Text("Earliest Closing Date: \(selectedDate + 3.456e+6)"))
+        })
+        .frame(width: 500, height: 1080, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+        .background(Color.black)
+        .foregroundColor(.white)
         
     }
 }
@@ -196,13 +207,5 @@ struct RootView: View {
 struct CalendarView_Previews: PreviewProvider {
     static var previews: some View {
         RootView()
-//        CalendarView(interval: .init()) { _ in
-//            Text("30")
-//                .hidden()
-//                .padding(8)
-//                .background(Color.blue)
-//                .clipShape(Circle())
-//                .padding(.vertical, 4)
-//        }
     }
 }
