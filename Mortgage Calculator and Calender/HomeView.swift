@@ -29,7 +29,7 @@ struct HomeView: View {
                 Image(systemName: "house.fill").scaleEffect()
                     .glow(color: Color.white)
                     .padding(.top, 60)
-                Text("Mortgage Calender \n and Calculator")
+                Text("Mortgage Calendar \n and Calculator")
                     .font(.largeTitle)
                     .multilineTextAlignment(.center)
                     .padding()

@@ -165,6 +165,7 @@ struct RootView: View {
     @Environment(\.calendar) var calendar
 
     @State private var bgColor: Color = .blue
+    @State private var fgColor: Color = .green
     @State var showingAlert: Bool = false
     @State var selectedDate: Date = Date()
     
@@ -196,8 +197,11 @@ struct RootView: View {
         }
         .alert(isPresented: $showingAlert, content: {
             Alert(title: Text("An Accepted Offer on \(selectedDate)"), message: Text("Earliest Closing Date: \(selectedDate + 3.456e+6)"))
+        
+        
+            
         })
-        .frame(width: 500, height: 1080, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+        .frame(width: 500, height: 790, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
         .background(Color.black)
         .foregroundColor(.white)
         
