@@ -180,8 +180,9 @@ struct RootView: View {
             Text("30")
                 .hidden()
                 .padding(10)
-                .background(bgColor)
-                .clipShape(Circle()).glow(color: .white, radius: 8)
+                .background(date == self.selectedDate ? Color.green : bgColor)
+                //.background(date == self.clickedDate ? Color.gray : Color.blue)
+                .clipShape(Circle()).glow(color: .red, radius: 8)
                 .padding(.vertical, 2)
                 .font(.body)
                 .overlay(

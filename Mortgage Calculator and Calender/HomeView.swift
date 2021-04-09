@@ -58,6 +58,9 @@ struct HomeView: View {
                         Spacer()
                         }
                         Spacer()
+                // Add UI Color Choices
+                // Neon, Homebrew, options?
+                //Toggle("")
             
             }
             .background(LinearGradient(gradient: Gradient(colors: [colortwo, colorthree]), startPoint: .topLeading, endPoint: .bottomTrailing)).ignoresSafeArea()

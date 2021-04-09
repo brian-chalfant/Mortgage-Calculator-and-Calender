@@ -13,6 +13,12 @@ struct Calc: View {
     
     init(){
             UITableView.appearance().backgroundColor = .clear
+            //UISegmentedControl.appearance().selectedSegmentTintColor = .blue
+            UISegmentedControl.appearance().backgroundColor = .black
+            UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
+            //UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.blue], for: .normal)
+        
+
         }
     
     @State var mortgageValue = ""
@@ -26,6 +32,9 @@ struct Calc: View {
     let colortwo = Color(.black)
     let colorthree = Color(.black)
     let colorfour = Color(.white)
+    let neonColor = Color.black
+    let fgColor = Color.green
+    let borderColor = Color.black
     
     
     var monthlyPayments: (Double, Double, Double, Double, Int, Double) {
@@ -55,54 +64,130 @@ struct Calc: View {
         VStack{
             
             Form {
-                Section(header: Text("Mortgage Amount $").glow(color: Color.blue, radius: 12)) {
+                Section(header: Text("Mortgage Amount $")
+                            .glow(color: neonColor, radius: 12)
+                            .font(.body)) {
                     TextField("Mortgage Amount", text: $mortgageValue)
-                }
-                Section(header: Text("Interest Rate %").glow(color: Color.blue, radius: 12)) {
+                        .padding()
+                        .listRowInsets(EdgeInsets())
+                        .border(borderColor, width: 3.0)
+                        .foregroundColor(fgColor)
+                        
+                }.padding(.horizontal)
+                .background(Color.black)
+                
+                
+                
+                Section(header: Text("Interest Rate %")
+                            .glow(color: neonColor, radius: 12)
+                            .font(.body)) {
                     TextField("Interest Rate", text: $AnnualPercentageRate)
+                        .padding()
+                        .listRowInsets(EdgeInsets())
+                        .border(borderColor, width: 3.0)
+                        .foregroundColor(fgColor)
                 }
-                Section (header: Text("Down Payment").glow(color: Color.blue, radius: 12)){
+                .padding(.horizontal)
+                .background(Color.black)
+                Section (header: Text("Down Payment")
+                            .glow(color: neonColor, radius: 12)
+                            .font(.body)){
                     TextField("Down Payment", text: $downPayment)
+                        .padding()
+                        .listRowInsets(EdgeInsets())
+                        .border(borderColor, width: 3.0)
+                        .foregroundColor(fgColor)
                 }
-                Section (header: Text("Length of Loan in Years").glow(color: Color.blue, radius: 12)) {
+                .padding(.horizontal)
+                .background(Color.black)
+                
+                Section (header: Text("Loan Term (Years)")
+                            .glow(color: neonColor, radius: 12)
+                            .font(.body)) {
                     Picker("Length Of Loan", selection: $selection) {
                         ForEach(0 ..< mortgageType.count) {
                             Text("\(self.mortgageType[$0]) Years")
+                                .foregroundColor(fgColor)
+                                .background(Color.black)
                         }
-                    }.pickerStyle(SegmentedPickerStyle())
-                    .background(colorone)
+                        .foregroundColor(fgColor)
+                        .listRowInsets(EdgeInsets())
+                        .background(Color.black)
+
+                    }
+                    .frame(maxWidth: .infinity)
+                    .background(Color.black)
+                    .pickerStyle(SegmentedPickerStyle())
+                    .border(borderColor, width: 3.0)
+                    //.background(colorone)
                 }
-                Section (header: Text("Monthy Payment").glow(color: Color.blue, radius: 12)) {
+                .background(Color.clear)
+                Section (header: Text("Monthy Payment")
+                            .glow(color: neonColor, radius: 12)
+                            .font(.body))  {
                     Text("$\(monthlyPayments.0, specifier: "%.2f")")
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding()
+                        .listRowInsets(EdgeInsets())
+                        .border(borderColor, width: 3.0)
+                        .foregroundColor(fgColor)
                         .foregroundColor(.black)
                 }
-                Section (header: Text("Interest Paid").glow(color: Color.blue, radius: 12)) {
+                .padding(.horizontal)
+                .background(Color.black)
+                Section (header: Text("Interest Paid")
+                            .glow(color: neonColor, radius: 12)
+                            .font(.body)) {
                     Text("$\(monthlyPayments.1, specifier: "%.2f")")
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding()
+                        .listRowInsets(EdgeInsets())
+                        .border(borderColor, width: 3.0)
+                        .foregroundColor(fgColor)
+                        .foregroundColor(.black)
+                        //.foregroundColor(.black)
+                }
+                .padding(.horizontal)
+                .background(Color.black)
+                Section (header: Text("Additional Payment each Month")
+                            .glow(color: neonColor, radius: 12)
+                            .font(.body)) {
+                    TextField("Additional Payment", text: $additionalPayment)
+                        .padding()
+                        .listRowInsets(EdgeInsets())
+                        .border(borderColor, width: 3.0)
+                        .foregroundColor(fgColor)
                         .foregroundColor(.black)
                 }
-                Section (header: Text("Additional Payment each Month").glow(color: Color.blue, radius: 12)) {
-                    TextField("Additional Payment", text: $additionalPayment)
-                }
+
+                
+                .padding(.horizontal)
+                .background(Color.black)
                 //TODO: Pie Chart, Loan payment Table
                  //
-                Button("Amortization Table") {
+                Button("Amortization Table")
+                {
                     self.ShowTable.toggle()
-                }.sheet(isPresented: $ShowTable, content: {
+                }
+                .frame(maxWidth: .infinity,
+                       alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                .listRowInsets(EdgeInsets())
+                .background(Color.black)
+                .foregroundColor(fgColor)
+                .font(.title)
+                .border(borderColor)
+                .glow(color: neonColor, radius: 12)
+                .background(Color.black)
+                .sheet(isPresented: $ShowTable, content: {
 
                     mortgage_table(
                         totalAmount: monthlyPayments.2,
                         beginningBalance: monthlyPayments.2, interestRate: monthlyPayments.3, monthlyPayment: monthlyPayments.0, numberOfPayments: monthlyPayments.4 * 12,
                         additionalPayments: monthlyPayments.5)
                 })
-                .frame(width: 300, height: 50,
-                       alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                .background(Color.white)
-                .foregroundColor(.black)
-                .font(.body)
-                .border(/*@START_MENU_TOKEN@*/Color.black/*@END_MENU_TOKEN@*/)
-                .glow(color: Color.blue, radius: 12)
+
                     
-            }.foregroundColor(colorfour)
+            }//.foregroundColor(colorfour)
             .background(LinearGradient(gradient: Gradient(colors: [colortwo, colorthree]), startPoint: .topLeading, endPoint: .bottomTrailing))
             //.keyboardType(.decimalPad)
         }
