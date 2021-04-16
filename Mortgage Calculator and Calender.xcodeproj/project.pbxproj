@@ -13,7 +13,6 @@
 		0A1C71702603B59F00E8B32F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A1C716F2603B59F00E8B32F /* Preview Assets.xcassets */; };
 		0A1C71792603BA9600E8B32F /* Calc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1C71782603BA9600E8B32F /* Calc.swift */; };
 		0A22C43A260D639A00AC75F1 /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = 0A22C439260D639A00AC75F1 /* SwiftUICharts */; };
-		0A22C43D260D642E00AC75F1 /* chartview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A22C43C260D642E00AC75F1 /* chartview.swift */; };
 		0A79E89F260832D40076BCED /* mortgage_table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A79E89E260832D40076BCED /* mortgage_table.swift */; };
 		218C3E1F260A901500645F95 /* Cal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218C3E1E260A901500645F95 /* Cal.swift */; };
 		21E934B6262942BB004DAE78 /* Reminders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E934B5262942BB004DAE78 /* Reminders.swift */; };
@@ -27,7 +26,6 @@
 		0A1C716F2603B59F00E8B32F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		0A1C71712603B59F00E8B32F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0A1C71782603BA9600E8B32F /* Calc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calc.swift; sourceTree = "<group>"; };
-		0A22C43C260D642E00AC75F1 /* chartview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chartview.swift; sourceTree = "<group>"; };
 		0A79E89E260832D40076BCED /* mortgage_table.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mortgage_table.swift; sourceTree = "<group>"; };
 		218C3E1E260A901500645F95 /* Cal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cal.swift; sourceTree = "<group>"; };
 		21E934B5262942BB004DAE78 /* Reminders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reminders.swift; sourceTree = "<group>"; };
@@ -73,7 +71,6 @@
 				0A1C71782603BA9600E8B32F /* Calc.swift */,
 				218C3E1E260A901500645F95 /* Cal.swift */,
 				0A79E89E260832D40076BCED /* mortgage_table.swift */,
-				0A22C43C260D642E00AC75F1 /* chartview.swift */,
 			);
 			path = "Mortgage Calculator and Calender";
 			sourceTree = "<group>";
@@ -167,7 +164,6 @@
 				218C3E1F260A901500645F95 /* Cal.swift in Sources */,
 				21E934B6262942BB004DAE78 /* Reminders.swift in Sources */,
 				0A1C71692603B59F00E8B32F /* Mortgage_Calculator_and_CalenderApp.swift in Sources */,
-				0A22C43D260D642E00AC75F1 /* chartview.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
