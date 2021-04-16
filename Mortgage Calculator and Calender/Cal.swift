@@ -180,7 +180,7 @@ struct RootView: View {
             Text("30")
                 .hidden()
                 .padding(10)
-                .background(date == self.selectedDate ? Color.orange : bgColor)
+                .background(date == self.selectedDate ? fgColor : bgColor)
                 //.background(date == self.clickedDate ? Color.gray : Color.blue)
                 .clipShape(Circle()).glow(color: .red, radius: 8)
                 .padding(.vertical, 2)
@@ -197,9 +197,11 @@ struct RootView: View {
             
         }
         .alert(isPresented: $showingAlert, content: {
-            Alert(title: Text("An Accepted Offer on \(selectedDate)"), message: Text("Earliest Closing Date: \(selectedDate + 3.456e+6)"))
-        
-        
+            Alert(title: Text("An Accepted Offer on \(selectedDate)"), message: Text("Earliest Closing Date: \(selectedDate + 3.456e+6)"), primaryButton: .default(Text("Okay!")),
+                secondaryButton: .destructive(Text("Cancel"))
+                    
+            )
+                
             
         })
         .frame(width: 500, height: 790, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
