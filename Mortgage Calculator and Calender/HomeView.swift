@@ -19,22 +19,21 @@ extension View {
 struct HomeView: View {
     @State private var ShowingCalc = false
     @State private var ShowingCal = false
-    let colorone = Color(.lightGray)
-    let colortwo = Color(.black)
-    let colorthree = Color(.black)
-    let colorfour = Color(.white)
+    let textColor = UIColor(named: "tableBackgroundColor")
+    let fgColor = UIColor(named: "accentColor")
+    let gtcolor = UIColor(named: "glowTextColor")
     var body: some View {
         ZStack {
             VStack{
                 Image(systemName: "house.fill").scaleEffect()
-                    .glow(color: Color.white)
+                    .glow(color: Color(fgColor!))
                     .padding(.top, 60)
                 Text("Mortgage Calendar \n and Calculator")
                     .font(.largeTitle)
                     .multilineTextAlignment(.center)
                     .padding()
                     .border(/*@START_MENU_TOKEN@*/Color.black/*@END_MENU_TOKEN@*/, width: 2.0)
-                    .glow(color: Color.white, radius: 3)
+                    .glow(color: Color(fgColor!), radius: 3)
                     
                 HStack {
                         Spacer()
@@ -42,8 +41,10 @@ struct HomeView: View {
                             self.ShowingCalc.toggle()
                             }.sheet(isPresented: $ShowingCalc, content: {
                                 Calc()
-                            }).buttonStyle(FilledButton())
+                            })
+                            .buttonStyle(FilledButton())
                             .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                    
                         Spacer()
                         }
                 .padding()
@@ -55,35 +56,40 @@ struct HomeView: View {
                                 RootView()
                             }).buttonStyle(FilledButton())
                             .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                    
                         Spacer()
-                        }
+                }
                         Spacer()
                 // Add UI Color Choices
                 // Neon, Homebrew, options?
                 //Toggle("")
             
             }
-            .background(LinearGradient(gradient: Gradient(colors: [colortwo, colorthree]), startPoint: .topLeading, endPoint: .bottomTrailing)).ignoresSafeArea()
-            }
+            .background(Color(textColor!)
+            )}
         
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView()
+        HomeView().colorScheme(.dark)
+        HomeView().colorScheme(.light)
     }
 }
 
 struct FilledButton: ButtonStyle {
+    let fgColor = UIColor(named: "accentColor")
+    let textColor = UIColor(named: "tableBackgroundColor")
     func makeBody(configuration: Configuration) -> some View {
         configuration
             .label
             .foregroundColor(configuration.isPressed ? .gray : .black)
             .frame(width: 200, height: 100, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
             .padding()
-            .background(Color.white)
+            //.background(Color(textColor!))
+            //.foregroundColor(.blue)
             .cornerRadius(200)
-            .glow(color: Color.blue, radius: 36)
+            .glow(color: Color(fgColor!), radius: 36)
     }
 }

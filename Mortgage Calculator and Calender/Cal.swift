@@ -164,10 +164,13 @@ struct CalendarView<DateView>: View where DateView: View {
 struct RootView: View {
     @Environment(\.calendar) var calendar
 
-    @State private var bgColor: Color = .blue
-    @State private var fgColor: Color = .green
+    @State private var bgColor: Color = .green
+    @State private var fgColor: Color = .purple
     @State var showingAlert: Bool = false
     @State var selectedDate: Date = Date()
+    let textColor = UIColor(named: "tableBackgroundColor")
+    let accColor = UIColor(named: "dateAccent")
+    let gtcolor = UIColor(named: "TextColor")
     
     private var year: DateInterval {
         calendar.dateInterval(of: .year, for: Date())!
@@ -182,8 +185,9 @@ struct RootView: View {
                 .padding(10)
                 .background(date == self.selectedDate ? fgColor : bgColor)
                 //.background(date == self.clickedDate ? Color.gray : Color.blue)
-                .clipShape(Circle()).glow(color: .red, radius: 8)
+                .clipShape(Circle()).glow(color: Color(accColor!), radius: 8)
                 .padding(.vertical, 2)
+                .padding(.horizontal, 1)
                 .font(.body)
                 .overlay(
                     Text(String(self.calendar.component(.day, from: date)))
@@ -205,14 +209,15 @@ struct RootView: View {
             
         })
         .frame(width: 500, height: 790, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-        .background(Color.black)
-        .foregroundColor(.white)
+        .background(Color(textColor!))
+        .foregroundColor(Color(gtcolor!))
         
     }
 }
 
 struct CalendarView_Previews: PreviewProvider {
     static var previews: some View {
-        RootView()
+        RootView().colorScheme(.dark)
+        RootView().colorScheme(.light)
     }
 }

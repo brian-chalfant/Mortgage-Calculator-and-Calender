@@ -31,26 +31,27 @@ struct mortgage_table: View {
     let colortwo = Color(.white)
     let colorthree = Color(.cyan)
     let colorfour = Color(.gray)
-    
+    let textColor = UIColor(named: "TextColor")
+    let tableBackgroundColor = UIColor(named: "tableBackgroundColor")
     var body: some View {
         let (mort_table, date_table, points, observations) = generateTable(totalAmount: totalAmount, balance: beginningBalance, interestRate: interestRate, monthlyPayment: monthlyPayment, numberOfPayments: numberOfPayments, additionalPayments: additionalPayments)
                 Form {
                     VStack {
                         VStack {
-                        HorizontalBarChartView(dataPoints: points)
+                            HorizontalBarChartView(dataPoints: points)
                             if (additionalPayments > 0) {
                                 VStack() {
                                     HStack() {
-                                        Text("$\(additionalPayments, specifier: "%.2f") Additional Per Month:")
+                                        Text("$\(additionalPayments, specifier: "%.2f") Additional Per Month:").foregroundColor(Color(textColor!))
                                         Spacer()
                                     }
                                     HStack {
-                                        Text("Pay off \(observations[2], specifier: "%.0f") months ( \(observations[2]/12, specifier: "%.2f") years) Early")
+                                        Text("Pay off \(observations[2], specifier: "%.0f") months ( \(observations[2]/12, specifier: "%.2f") years) Early").foregroundColor(Color(textColor!))
                                         Spacer()
                                     }
                                     HStack {
                                 //MARK: - TODO if year == 1 specify year not years
-                                        Text("Save $\(observations[0], specifier: "%.2f") in interest")
+                                        Text("Save $\(observations[0], specifier: "%.2f") in interest").foregroundColor(Color(textColor!))
                                         Spacer()
                                     }
                                 }.font(.caption)
@@ -75,10 +76,11 @@ struct mortgage_table: View {
             
                         }
 
-                    }.listRowBackground(LinearGradient(gradient: Gradient(colors: [colortwo, colorthree]), startPoint: /*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/, endPoint: /*@START_MENU_TOKEN@*/.trailing/*@END_MENU_TOKEN@*/))
+                    }//.listRowBackground(LinearGradient(gradient: Gradient(colors: [colortwo, colorthree]), startPoint: /*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/, endPoint: /*@START_MENU_TOKEN@*/.trailing/*@END_MENU_TOKEN@*/))
                 }
                 .opacity(0.8)
-                .background(colortwo)
+                .background(Color(tableBackgroundColor!))
+                .foregroundColor(Color(textColor!))
         
     }
 }
@@ -117,6 +119,7 @@ struct tableRow: View {
             Spacer()
             Text("$\(balance, specifier: "%.2f")")
     }.font(.system(size: 10, design: .monospaced))
+    
 }
 }
 
@@ -124,7 +127,12 @@ struct tableRow: View {
 
 struct mortgage_table_Previews: PreviewProvider {
     static var previews: some View {
+        Group {
         mortgage_table(totalAmount: 100000.0, beginningBalance: 100000.0, interestRate: 0.03/12, monthlyPayment: 956.61, numberOfPayments: 120, additionalPayments: 100.0)
+            .colorScheme(.light)
+            mortgage_table(totalAmount: 100000.0, beginningBalance: 100000.0, interestRate: 0.03/12, monthlyPayment: 956.61, numberOfPayments: 120, additionalPayments: 100.0)
+            .colorScheme(.dark)
+        }
     }
 }
 
@@ -136,8 +144,8 @@ func generateTable(totalAmount: Double, balance: Double, interestRate: Double, m
     var startDate = Date()
     var date_table: [String] = []
     var mort_table: [[Double]] =  []
-    let interestLegend = Legend(color: .gray, label: "Interest", order: 2)
-    let principleLegend = Legend(color: .blue, label: "Principle", order: 1)
+    let interestLegend = Legend(color: .yellow, label: "Interest", order: 2)
+    let principleLegend = Legend(color: .green, label: "Principle", order: 1)
     let formatter = DateFormatter()
     formatter.dateFormat = "MMM YY"
     var beginningBalance = balance
@@ -210,4 +218,4 @@ func generateTable(totalAmount: Double, balance: Double, interestRate: Double, m
     
     
     
-    }
+}
