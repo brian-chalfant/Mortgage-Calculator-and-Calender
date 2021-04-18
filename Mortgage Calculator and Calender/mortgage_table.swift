@@ -20,17 +20,7 @@ struct mortgage_table: View {
     @State var additionalPayments: Double
     let interest = Legend(color: .blue, label: "Interest", order: 2)
     let principle = Legend(color: .gray, label: "Principle", order: 1)
-    
-    
-//    let colorone = Color(red: 244.0/255, green: 249.0/255, blue: 249.0/255)
-//    let colortwo = Color(red: 204.0/255, green: 242.0/255, blue: 244.0/255)
-//    let colorthree = Color(red:164.0/255, green: 235.0/255, blue: 243.0/255)
-//    let colorfour = Color(red: 170.0/255, green: 170.0/255, blue: 170.0/255)
-    
-    let colorone = Color(.lightGray)
-    let colortwo = Color(.white)
-    let colorthree = Color(.cyan)
-    let colorfour = Color(.gray)
+    let grayscale = UIColor(named: "grayscale")
     let textColor = UIColor(named: "TextColor")
     let tableBackgroundColor = UIColor(named: "tableBackgroundColor")
     var body: some View {
@@ -38,7 +28,7 @@ struct mortgage_table: View {
                 Form {
                     VStack {
                         VStack {
-                            HorizontalBarChartView(dataPoints: points)
+                            HorizontalBarChartView(dataPoints: points).font(.body)
                             if (additionalPayments > 0) {
                                 VStack() {
                                     HStack() {
@@ -46,7 +36,7 @@ struct mortgage_table: View {
                                         Spacer()
                                     }
                                     HStack {
-                                        Text("Pay off \(observations[2], specifier: "%.0f") months ( \(observations[2]/12, specifier: "%.2f") years) Early").foregroundColor(Color(textColor!))
+                                        Text("Pay off \(observations[2], specifier: "%.0f") months ( \(observations[2]/12, specifier: "%.1f") years) Early").foregroundColor(Color(textColor!))
                                         Spacer()
                                     }
                                     HStack {
@@ -62,9 +52,9 @@ struct mortgage_table: View {
                             .border(/*@START_MENU_TOKEN@*/Color.black/*@END_MENU_TOKEN@*/, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
                         tableHeader()
                         Rectangle()
-                            .fill(colorfour)
+                            .fill(Color(grayscale!))
                             .padding(.bottom, 0.25)
-                        .background(colorfour)
+                            .background(Color(grayscale!))
                         ForEach(0..<mort_table.count, id: \.self) {i in
                             tableRow(date: date_table[i],
                              payment: mort_table[i][2],
@@ -109,7 +99,7 @@ struct tableRow: View {
     var balance: Double
     var body: some View {
     HStack() {
-        Text(date)
+        Text(date).fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
             Spacer()
             Text("$\(payment, specifier: "%.2f")")
             Spacer()
