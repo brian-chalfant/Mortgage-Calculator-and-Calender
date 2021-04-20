@@ -171,7 +171,6 @@ struct RootView: View {
     let textColor = UIColor(named: "tableBackgroundColor")
     let accColor = UIColor(named: "dateAccent")
     let gtcolor = UIColor(named: "TextColor")
-    
     private var year: DateInterval {
         calendar.dateInterval(of: .year, for: Date())!
     }
@@ -201,7 +200,7 @@ struct RootView: View {
             
         }
         .alert(isPresented: $showingAlert, content: {
-            Alert(title: Text("An Accepted Offer on \(selectedDate)"), message: Text("Earliest Closing Date: \(selectedDate + 3.456e+6)"), primaryButton: .default(Text("Okay!")),
+            Alert(title: Text("An Accepted Offer on \(Text(selectedDate, style: .date))"), message: Text("Earliest Closing Date: \(Text(selectedDate + 3.456e+6, style: .date))"), primaryButton: .default(Text("Okay!")),
                 secondaryButton: .destructive(Text("Cancel"))
                     
             )
